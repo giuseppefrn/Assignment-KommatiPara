@@ -6,10 +6,7 @@ from main import filter_data, rename_columns
 import os
 import sys
 
-os.environ['PYSPARK_PYTHON'] = sys.executable
-os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
-
-sc = SparkSession.builder.master("local").appName("KommatiPara-test").getOrCreate()
+from main import sc
 
 def test_remove_countries():
     source_data = [(1, 'Netherlands'),(2, 'Italy'),

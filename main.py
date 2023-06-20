@@ -7,6 +7,10 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 from typing import TypeVar, Sequence
+import sys
+
+os.environ['PYSPARK_PYTHON'] = sys.executable
+os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
 T = TypeVar('T')
 C = TypeVar('C')
