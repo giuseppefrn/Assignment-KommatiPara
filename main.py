@@ -1,4 +1,5 @@
 import argparse
+from pyspark.sql import SparkSession
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -7,3 +8,5 @@ if __name__ == '__main__':
     parser.add_argument('--f','--list', nargs='+', help='Filter on Country', required=True)
 
     opt = parser.parse_args()
+    
+    sc = SparkSession.builder.master("local").appName("KommatiPara").getOrCreate()
