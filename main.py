@@ -1,7 +1,9 @@
 import argparse
 import os
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
+from pyspark.sql import DataFrame
 
 import logging
 from logging.handlers import RotatingFileHandler
@@ -26,7 +28,7 @@ logger.addHandler(handler)
 
 sc = SparkSession.builder.master("local").appName("KommatiPara").getOrCreate()
 
-def load_csv(filepath):
+def load_csv(filepath: str) -> DataFrame:
     """
     Load csv from a given filepath.
 
@@ -38,7 +40,9 @@ def load_csv(filepath):
         logger.debug(f"Data loaded: {filepath}")
         #log dataset loaded
         return df
-    logger.fatal(f"File doesn't exist: {filepath}")
+    
+    logger.error(f"Filepath doesn't exist: {filepath}")
+    raise TypeError(f"Filepath doesn't exist {filepath}")
 
 def filter_data(df: D, filters: Sequence[T], colname: C) -> D:
     """
@@ -52,7 +56,7 @@ def filter_data(df: D, filters: Sequence[T], colname: C) -> D:
     logger.debug(f"Filtering column: {colname} values: {filters}")
     return df.filter(col(colname).isin(filters))
 
-def remove_personal_info(df, personal_info):
+def remove_personal_info(df: DataFrame, personal_info: Sequence[str]) -> DataFrame:
     """
     Drops personal info from the dataframe
     :param dataframe df: dataframe where to remove personal info
@@ -71,11 +75,14 @@ def rename_columns(df: D, columns_to_rename: Sequence[T]) -> D:
    """
     logger.debug(f"Data to be renamed: {columns_to_rename}")
     for (old,new) in columns_to_rename:
+        if not isinstance(new, str):
+            logger.error(f"New column is not a string: {type(new)}")
+            raise TypeError(f"New column name must be a string, not {type(new)}")
         df = df.withColumnRenamed(old, new)
 
     return df
 
-def save_csv_output_file(df, path):
+def save_csv_output_file(df: DataFrame, path: str) -> None:
     """
     Save output inside the path folder as csv and overwite if already exists
     :param dataframe df: dataframe to be saved
@@ -106,6 +113,5 @@ if __name__ == '__main__':
     df_full_clients = remove_personal_info(df=df_full_clients, personal_info=['first_name', 'last_name', 'cc_n'])
 
     df_full_clients = rename_columns(df=df_full_clients, columns_to_rename=[('id', 'client_identifier'), ('btc_a', 'bitcoin_address'), ('cc_t', 'credit_card_type')])
-
 
     save_csv_output_file(df=df_full_clients, path='client_data')
