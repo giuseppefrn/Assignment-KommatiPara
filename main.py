@@ -36,6 +36,17 @@ def remove_personal_info(df, personal_info):
     """
     return df.drop(*personal_info)
 
+def save_csv_output_file(df, path):
+    """
+    Save output inside the path folder as csv and overwite if already exists
+    :param dataframe df: dataframe to be saved
+    :param string path: path to the folder where to save the output
+    :return void
+    """
+
+    df.write.mode('overwrite').csv(path)
+    logger.debug(f"Output saved on: {path}")
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--d1', type=str, required=True, help='path to the first dataset')
@@ -54,3 +65,5 @@ if __name__ == '__main__':
     df_full_clients = df_clients.join(df_fin, on=['id'], how='inner')
 
     df_full_clients = remove_personal_info(df=df_full_clients, personal_info=['first_name', 'last_name', 'cc_n'])
+
+    save_csv_output_file(df=df_full_clients, path='client_data')
