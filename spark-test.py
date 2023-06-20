@@ -25,6 +25,20 @@ def test_remove_countries():
 
     assert_df_equality(filtered_df, expected_df)
 
+def test_rename():
+    source_data = [(1, '123','123'),(2, '542', '433'),
+             (3, '532', '532')]
+    
+    source_df = sc.createDataFrame(source_data,  ["id", "btc_a", "cc_t"])
+
+    
+    expected_df = sc.createDataFrame(source_data,  ["client_identifier", "bitcoin_address", "credit_card_type"])
+
+    renamed_df = rename_columns(df=source_df, columns_to_rename=[('id', 'client_identifier'), ('btc_a', 'bitcoin_address'), ('cc_t', 'credit_card_type')])
+
+    assert_df_equality(renamed_df, expected_df)
+
 if __name__ == '__main__':
     sc = SparkSession.builder.master("local").appName("KommatiPara-test").getOrCreate()
     test_remove_countries()
+    test_rename()
