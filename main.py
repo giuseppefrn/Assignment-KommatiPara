@@ -83,7 +83,7 @@ def save_csv_output_file(df, path):
     :return void
     """
 
-    df.write.mode('overwrite').csv(path)
+    df.write.option("header",True).mode('overwrite').csv(path)
     logger.debug(f"Output saved on: {path}")
 
 if __name__ == '__main__':
