@@ -1,0 +1,2 @@
+Data to be renamed: [('id', 'client_identifier'), ('btc_a', 'bitcoin_address'), ('cc_t', 'credit_card_type')]
+Output saved on: client_data
