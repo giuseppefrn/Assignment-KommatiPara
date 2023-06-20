@@ -27,6 +27,15 @@ def load_csv(filepath):
         return df
     logger.fatal(f"File doesn't exist: {filepath}")
 
+def remove_personal_info(df, personal_info):
+    """
+    Drops personal info from the dataframe
+    :param dataframe df: dataframe where to remove personal info
+    :param personal_info list: list of columns to drop
+    :return modified dataframe
+    """
+    return df.drop(*personal_info)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--d1', type=str, required=True, help='path to the first dataset')
@@ -41,3 +50,7 @@ if __name__ == '__main__':
 
     df_clients = load_csv(opt.d1)
     df_fin = load_csv(opt.d2)
+
+    df_full_clients = df_clients.join(df_fin, on=['id'], how='inner')
+
+    df_full_clients = remove_personal_info(df=df_full_clients, personal_info=['first_name', 'last_name', 'cc_n'])
