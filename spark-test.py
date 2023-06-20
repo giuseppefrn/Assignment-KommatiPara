@@ -4,6 +4,10 @@ from pyspark.sql.functions import col
 
 from main import filter_data, rename_columns
 import os
+import sys
+
+os.environ['PYSPARK_PYTHON'] = sys.executable
+os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
 def test_remove_countries():
     source_data = [(1, 'Netherlands'),(2, 'Italy'),
