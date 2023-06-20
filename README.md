@@ -27,7 +27,7 @@ In detail, the application:
 - Saves the result in the client_data folder as a CSV file.
 
 ## Test spark functions
-To test `filter_data` and `rename_columns` functions you can execute `spark-test.py`, i.e.:
+To test `filter_data` and `rename_columns` functions you can execute `spark_test.py`, i.e.:
 
 ```
 python3.7 spark-test.py
