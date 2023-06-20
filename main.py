@@ -20,6 +20,8 @@ os.makedirs("logs", exist_ok=True)
 handler = RotatingFileHandler("logs/kommatipara.log", maxBytes=200, backupCount=3)
 logger.addHandler(handler)
 
+sc = SparkSession.builder.master("local").appName("KommatiPara").getOrCreate()
+
 def load_csv(filepath):
     """
     Load csv from a given filepath.
@@ -89,8 +91,6 @@ if __name__ == '__main__':
     opt = parser.parse_args()
 
     logger.debug(f"Arguments parsed: {opt.d1}, {opt.d2}, {opt.f}")
-
-    sc = SparkSession.builder.master("local").appName("KommatiPara").getOrCreate()
 
     df_clients = load_csv(opt.d1)
     df_fin = load_csv(opt.d2)

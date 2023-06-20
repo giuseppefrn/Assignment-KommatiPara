@@ -9,6 +9,8 @@ import sys
 os.environ['PYSPARK_PYTHON'] = sys.executable
 os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
+sc = SparkSession.builder.master("local").appName("KommatiPara-test").getOrCreate()
+
 def test_remove_countries():
     source_data = [(1, 'Netherlands'),(2, 'Italy'),
              (3, 'Italy'),(4, 'United Kingdom'),
@@ -39,6 +41,5 @@ def test_rename():
     assert_df_equality(renamed_df, expected_df)
 
 if __name__ == '__main__':
-    sc = SparkSession.builder.master("local").appName("KommatiPara-test").getOrCreate()
     test_remove_countries()
     test_rename()
