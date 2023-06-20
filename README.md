@@ -30,7 +30,7 @@ In detail, the application:
 To test `filter_data` and `rename_columns` functions you can execute `spark_test.py`, i.e.:
 
 ```
-python3.7 spark-test.py
+python3.7 spark_test.py
 ```
 
 ## Tool used
