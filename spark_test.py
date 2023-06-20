@@ -1,10 +1,6 @@
 from chispa.dataframe_comparer import *
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
 
 from main import filter_data, rename_columns
-import os
-import sys
 
 from main import sc
 
